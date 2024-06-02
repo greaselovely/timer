@@ -34,7 +34,7 @@ This Python script creates a countdown timer with a background image and a messa
 3. **Install the required packages:**
 
    ```sh
-   pip install PyQt5
+   pip install -r requirements.txt
    ```
 
 ## Usage
