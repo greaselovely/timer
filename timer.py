@@ -116,9 +116,9 @@ class CountdownTimer(QWidget):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Countdown Timer')
-    parser.add_argument('-i', '--image', type=str, default=DEFAULT_IMAGE, help='Path to the background image file (default: background.png)')
-    parser.add_argument('-s', '--sec', type=int, default=DEFAULT_SECONDS, help='Number of seconds for the countdown (default: 300)')
-    parser.add_argument('-m', '--message', type=str, default=DEFAULT_MESSAGE, help='Message to display after the countdown (default: "And We\'re Back!")')
+    parser.add_argument('-i', '--image', type=str, default=DEFAULT_IMAGE, help=f'Path to the background image file (default: {DEFAULT_IMAGE})')
+    parser.add_argument('-s', '--sec', type=int, default=DEFAULT_SECONDS, help=f'Number of seconds for the countdown (default: {DEFAULT_SECONDS})')
+    parser.add_argument('-m', '--message', type=str, default=DEFAULT_MESSAGE, help=f'Message to display after the countdown (default: {DEFAULT_MESSAGE})')
     return parser.parse_args()
 
 if __name__ == '__main__':
