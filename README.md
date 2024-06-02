@@ -1,6 +1,3 @@
-### README.md
-
-```markdown
 # Countdown Timer
 
 This Python script creates a countdown timer with a background image and a message display after the timer ends. It uses PyQt5 for the graphical user interface.
