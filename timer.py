@@ -11,20 +11,28 @@ FADE_DURATION = 2000  # 2 SECONDS
 DEFAULT_IMAGE = "background.png"
 DEFAULT_SECONDS = 300  # 5 minutes
 DEFAULT_MESSAGE = "And We're Back!"
+DEFAULT_WIDTH = 1024
+DEFAULT_HEIGHT = 768
 
 class CountdownTimer(QWidget):
-    def __init__(self, starting_seconds, message, background_image):
+    def __init__(self, starting_seconds, message, background_image, full_screen):
         super().__init__()
         self.starting_seconds = starting_seconds
         self.message = message
         self.background_image = background_image
+        self.full_screen = full_screen
         self.background_label = QLabel(self)  # Initialize the background_label here
         self.pixmap = QPixmap(self.background_image)  # Initialize the pixmap as an instance variable
         self.initUI()
 
     def initUI(self):
         self.setWindowTitle('Countdown Timer')
-        self.showFullScreen()
+        if self.full_screen:
+            self.showFullScreen()
+        else:
+            self.resize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+            self.show()
+
         self.setAutoFillBackground(False)
 
         # Load the background image
@@ -119,6 +127,7 @@ def parse_arguments():
     parser.add_argument('-i', '--image', type=str, default=DEFAULT_IMAGE, help=f'Path to the background image file (default: {DEFAULT_IMAGE})')
     parser.add_argument('-s', '--sec', type=int, default=DEFAULT_SECONDS, help=f'Number of seconds for the countdown (default: {DEFAULT_SECONDS})')
     parser.add_argument('-m', '--message', type=str, default=DEFAULT_MESSAGE, help=f'Message to display after the countdown (default: {DEFAULT_MESSAGE})')
+    parser.add_argument('-f', '--fullscreen', action='store_true', help='Run the timer in full-screen mode')
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -127,7 +136,8 @@ if __name__ == '__main__':
     starting_seconds = args.sec
     message = args.message
     background_image = args.image
+    full_screen = args.fullscreen
 
     app = QApplication(sys.argv)
-    timer = CountdownTimer(starting_seconds, message, background_image)  # Start a countdown with the provided arguments
+    timer = CountdownTimer(starting_seconds, message, background_image, full_screen)  # Start a countdown with the provided arguments
     sys.exit(app.exec_())
