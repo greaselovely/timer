@@ -1,6 +1,6 @@
 import sys
 import argparse
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsOpacityEffect, QPushButton, QSpacerItem, QSizePolicy
 from PyQt5.QtCore import QTimer, Qt, QPropertyAnimation
 from PyQt5.QtGui import QFont, QPixmap
 
@@ -21,6 +21,7 @@ class CountdownTimer(QWidget):
         self.message = message
         self.background_image = background_image
         self.full_screen = full_screen
+        self.timer = QTimer(self)
         self.background_label = QLabel(self)  # Initialize the background_label here
         self.pixmap = QPixmap(self.background_image)  # Initialize the pixmap as an instance variable
         self.initUI()
@@ -60,18 +61,29 @@ class CountdownTimer(QWidget):
         self.message_label.setGraphicsEffect(self.message_opacity_effect)
         self.message_label.hide()
 
+        # Create a start button
+        self.start_button = QPushButton('Start')
+        self.start_button.clicked.connect(self.start_timer)
+
         # Create layout and add the labels
-        layout = QVBoxLayout(self)
-        layout.addWidget(self.timer_label)
-        layout.addWidget(self.message_label)
+        layout = QVBoxLayout()
+        
+        # Spacer to push timer_label to the center
+        layout.addSpacerItem(QSpacerItem(20, 220, QSizePolicy.Minimum, QSizePolicy.Expanding))
+
+        layout.addWidget(self.timer_label, alignment=Qt.AlignCenter)
+
+        # Spacer to position message_label in the lower third
+        layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
+        layout.addWidget(self.message_label, alignment=Qt.AlignCenter)
+
+        # Spacer to ensure button is at the bottom
+        layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
+        layout.addWidget(self.start_button, alignment=Qt.AlignRight | Qt.AlignBottom)
+        
         self.setLayout(layout)
 
         self.update_timer()
-
-        # Create a timer for countdown
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_timer)
-        self.timer.start(1000)
 
         self.show()
 
@@ -100,6 +112,11 @@ class CountdownTimer(QWidget):
         else:
             self.timer.stop()
             self.fade_out_timer()
+
+    def start_timer(self):
+        self.start_button.setDisabled(True)  # Disable the start button after starting
+        self.timer.timeout.connect(self.update_timer)
+        self.timer.start(1000)
 
     def fade_out_timer(self):
         self.timer_fade_animation = QPropertyAnimation(self.timer_opacity_effect, b"opacity")
