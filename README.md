@@ -46,6 +46,7 @@ You can run the script with optional arguments for the background image, countdo
 - `-i` or `--image`: Path to the background image file (default: `background.png`)
 - `-s` or `--sec`: Number of seconds for the countdown (default: `300` seconds or 5 minutes)
 - `-m` or `--message`: Message to display after the countdown (default: `"And We're Back!"`)
+- `-a` or `--auto_start` : Auto start the timer
 
 ### Running the Script
 
@@ -68,6 +69,15 @@ python timer.py -i background.png -s 300 -m "And We're Back!"
 ```
 
 This command will start a countdown timer for 5 minutes with `background.png` as the background image and display the message `"And We're Back!"` after the timer ends.
+
+- Using an online image dynamically
+
+```sh
+python timer.py -i https://mywebsite.com/background.png
+```
+
+This command will detect a URL for an image, attempt to download and save it, and then use it as the background image.
+
 
 ## Script Details
 
